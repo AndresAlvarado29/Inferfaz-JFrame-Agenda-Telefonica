@@ -5,6 +5,7 @@
  */
 package ec.edu.ups.vista;
 
+import ec.edu.ups.controlador.ControladorTelefono;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 private VentanaSecundaria v;
+
     /**
      * Creates new form VentanaPrincipal
      */
@@ -159,6 +161,8 @@ private VentanaSecundaria v;
         String correo="admin" ;
         String contraseña="1234";
         if(v==null&&txtCorreo.getText().equals(correo)&&jPassword.getText().equals(contraseña)){
+            txtCorreo.setText(" ");
+            jPassword.setText(" ");
        v = new VentanaSecundaria();
        v.setVisible(true);
        

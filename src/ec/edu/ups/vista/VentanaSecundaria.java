@@ -5,17 +5,31 @@
  */
 package ec.edu.ups.vista;
 
+import ec.edu.ups.controlador.ControladorTelefono;
+import ec.edu.ups.dao.TelefonoDAO;
+import ec.edu.ups.modelo.Telefono;
+import java.awt.Color;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HI andres
  */
 public class VentanaSecundaria extends javax.swing.JFrame {
+private VentanaPrincipal v;
+private DefaultListModel dLM;
+private ControladorTelefono controlador;
 
     /**
      * Creates new form VentanaSecundaria
      */
     public VentanaSecundaria() {
-        initComponents();
+        dLM = new DefaultListModel<Telefono>(); 
+        controlador=new ControladorTelefono(this,new TelefonoDAO());
+        initComponents(); 
+        jListTelefono.setModel(dLM);
+        
     }
 
     /**
@@ -40,6 +54,8 @@ public class VentanaSecundaria extends javax.swing.JFrame {
         txtNumero = new javax.swing.JTextField();
         txtTipo = new javax.swing.JTextField();
         txtOperadora = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListTelefono = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro");
@@ -58,8 +74,18 @@ public class VentanaSecundaria extends javax.swing.JFrame {
         labelOperadora.setText("Operadora:");
 
         btnRegistrar.setText("Registar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnListar.setText("Listar");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
 
         btnCerrarSesion.setText("Cerrar Sesion");
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -68,40 +94,43 @@ public class VentanaSecundaria extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(jListTelefono);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNumero)
-                    .addComponent(labelCodigo)
-                    .addComponent(labelTipo)
-                    .addComponent(labelOperadora))
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(txtNumero)
-                    .addComponent(txtCodigo)
-                    .addComponent(txtOperadora))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCerrarSesion))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel1)
+                        .addGap(0, 133, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(75, 75, 75)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addComponent(btnRegistrar)
-                                .addGap(51, 51, 51)
-                                .addComponent(btnListar)))
-                        .addGap(0, 100, Short.MAX_VALUE)))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelNumero)
+                                    .addComponent(labelCodigo)
+                                    .addComponent(labelTipo)
+                                    .addComponent(labelOperadora))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                    .addComponent(txtNumero)
+                                    .addComponent(txtCodigo)
+                                    .addComponent(txtOperadora)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnListar)
+                        .addGap(154, 154, 154)
+                        .addComponent(btnCerrarSesion)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -109,32 +138,38 @@ public class VentanaSecundaria extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCodigo)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(labelNumero)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelTipo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCerrarSesion)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtOperadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelOperadora))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrar)
-                    .addComponent(btnListar))
-                .addGap(24, 24, 24)
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
+                            .addComponent(labelCodigo)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(labelNumero)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelTipo))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtOperadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelOperadora))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(btnRegistrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnListar)
+                        .addGap(17, 17, 17))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,8 +187,38 @@ public class VentanaSecundaria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        // TODO add your handling code here:
+ if(v==null){
+       v = new VentanaPrincipal();
+       v.setVisible(true);
+       
+      }
+      v.setVisible(true);
+    
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+ String codigo=txtCodigo.getText();
+ String numero=txtNumero.getText();
+ String tipo=txtTipo.getText();
+ String operadora=txtOperadora.getText();
+        if(!txtCodigo.getText().trim().equals(" ")&&!txtNumero.getText().trim().equals(" ")&&!txtOperadora.getText().trim().equals(" ")&&!txtTipo.getText().trim().equals(" ")){ 
+     controlador.crear(new Telefono(codigo, numero, tipo, operadora));
+     }else if(txtCodigo.getText().equals(" ")||txtNumero.getText().equals(" ")||txtOperadora.getText().equals(" ")||txtTipo.getText().equals(" ")){    
+        txtCodigo.setBackground(Color.red);
+        txtNumero.setBackground(Color.red);
+        txtOperadora.setBackground(Color.red);  
+        txtTipo.setBackground(Color.red);
+        JOptionPane.showMessageDialog(this, "Faltan Datos");
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        dLM.addElement(txtCodigo.getText()+" "+txtNumero.getText()+" "+txtTipo.getText()+" "+txtOperadora.getText());
+        txtCodigo.setText(" ");
+        txtNumero.setText(" ");
+        txtTipo.setText(" ");
+        txtOperadora.setText(" ");
+    }//GEN-LAST:event_btnListarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,6 +249,7 @@ public class VentanaSecundaria extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new VentanaSecundaria().setVisible(true);
             }
@@ -195,7 +261,9 @@ public class VentanaSecundaria extends javax.swing.JFrame {
     private javax.swing.JButton btnListar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jListTelefono;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCodigo;
     private javax.swing.JLabel labelNumero;
     private javax.swing.JLabel labelOperadora;
