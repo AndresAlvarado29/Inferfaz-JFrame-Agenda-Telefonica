@@ -190,7 +190,7 @@ private ControladorTelefono controlador;
  if(v==null){
        v = new VentanaPrincipal();
        v.setVisible(true);
-       
+       this.setVisible(false);
       }
       v.setVisible(true);
     

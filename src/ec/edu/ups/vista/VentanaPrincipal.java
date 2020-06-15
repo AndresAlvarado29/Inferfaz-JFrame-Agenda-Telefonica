@@ -165,6 +165,7 @@ private VentanaSecundaria v;
             jPassword.setText(" ");
        v = new VentanaSecundaria();
        v.setVisible(true);
+       this.setVisible(false);
        
       }else{
             JOptionPane.showMessageDialog(this, "Correo o Contraseña incorrecto");
